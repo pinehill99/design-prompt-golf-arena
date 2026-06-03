@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vercel — reference</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; color: #fff; font-family: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 40px; border-bottom: 1px solid #1a1a1a; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; }
+  .tri { width: 0; height: 0; border-left: 11px solid transparent; border-right: 11px solid transparent; border-bottom: 19px solid #fff; }
+  .nav nav a { color: #888; text-decoration: none; font-size: 14px; margin-left: 26px; }
+  .hero { position: relative; text-align: center; padding: 150px 24px 170px; overflow: hidden; }
+  .glow { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); width: 620px; height: 620px; border-radius: 50%; background: radial-gradient(circle, rgba(120,120,255,.18), rgba(255,80,160,.08) 40%, transparent 65%); filter: blur(10px); }
+  .label { position: relative; font-family: ui-monospace, "SF Mono", monospace; font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: #888; margin-bottom: 30px; }
+  h1 { position: relative; font-size: 78px; line-height: 1.0; letter-spacing: -0.04em; font-weight: 700; }
+  h1 .dim { color: #888; }
+  p { position: relative; color: #888; font-size: 19px; margin: 30px auto 0; max-width: 520px; line-height: 1.5; }
+  .cta { position: relative; display: flex; gap: 14px; justify-content: center; margin-top: 42px; }
+  .btn { border-radius: 999px; padding: 13px 28px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid transparent; }
+  .btn.solid { background: #fff; color: #000; }
+  .btn.ghost { background: transparent; color: #fff; border-color: #333; }
+</style>
+</head>
+<body>
+  <div class="nav">
+    <div class="brand"><span class="tri"></span> Vercel</div>
+    <nav><a href="#">Products</a><a href="#">Docs</a><a href="#">Pricing</a><a href="#">Login</a></nav>
+  </div>
+  <div class="hero">
+    <div class="glow"></div>
+    <div class="label">Frontend Cloud</div>
+    <h1>Build. Preview.<br><span class="dim">Ship.</span></h1>
+    <p>Deploy your frontend in seconds with zero configuration. The platform engineers trust to move fast.</p>
+    <div class="cta">
+      <button class="btn solid">Deploy</button>
+      <button class="btn ghost">Get a demo</button>
+    </div>
+  </div>
+</body>
+</html>

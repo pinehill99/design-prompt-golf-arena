@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Linear — reference</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #08080B; color: #F7F8F8; font-family: ui-sans-serif, system-ui, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  .grid-bg { position: fixed; inset: 0; background-image: linear-gradient(#ffffff08 1px, transparent 1px), linear-gradient(90deg, #ffffff08 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(circle at 50% 18%, #000 0%, transparent 60%); }
+  .nav { position: relative; display: flex; align-items: center; justify-content: space-between; padding: 22px 40px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 16px; letter-spacing: -0.01em; }
+  .mark { width: 20px; height: 20px; border-radius: 6px; background: linear-gradient(140deg, #5E6AD2, #A8AEE8); }
+  .nav nav a { color: #8A8F98; text-decoration: none; font-size: 14px; margin-left: 24px; }
+  .hero { position: relative; text-align: center; padding: 130px 24px 160px; }
+  .badge { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: #C2C5CC; border: 1px solid #ffffff1a; border-radius: 999px; padding: 6px 14px; margin-bottom: 34px; background: #ffffff08; }
+  .badge .d { width: 6px; height: 6px; border-radius: 50%; background: #5E6AD2; }
+  h1 { font-size: 70px; line-height: 1.04; letter-spacing: -0.03em; font-weight: 600; background: linear-gradient(180deg, #fff, #b9bcc9); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  p { color: #8A8F98; font-size: 19px; margin: 28px auto 0; max-width: 520px; line-height: 1.55; }
+  .cta { display: flex; gap: 14px; justify-content: center; margin-top: 40px; }
+  .btn { border-radius: 9px; padding: 12px 24px; font-size: 15px; font-weight: 500; cursor: pointer; border: 1px solid transparent; }
+  .btn.primary { background: linear-gradient(180deg, #6872E5, #5E6AD2); color: #fff; }
+  .btn.ghost { background: #ffffff0d; color: #F7F8F8; border-color: #ffffff1a; }
+</style>
+</head>
+<body>
+  <div class="grid-bg"></div>
+  <div class="nav">
+    <div class="brand"><span class="mark"></span> Linear</div>
+    <nav><a href="#">Features</a><a href="#">Method</a><a href="#">Pricing</a><a href="#">Log in</a></nav>
+  </div>
+  <div class="hero">
+    <div class="badge"><span class="d"></span> Linear 2026 — now available</div>
+    <h1>The issue tracker<br>teams move fast on.</h1>
+    <p>Streamline issues, projects, and product roadmaps. Built for the way modern software teams actually work.</p>
+    <div class="cta">
+      <button class="btn primary">Start building</button>
+      <button class="btn ghost">Open the app</button>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,8 +1,8 @@
 # Design Prompt Golf Arena
 
-A public benchmark and leaderboard for recreating website designs with the fewest possible prompt tokens, turns, and model cost.
+A public prompt-golf prototype for recreating website designs with the fewest possible prompt tokens, turns, and model cost.
 
-The first prototype is based on an owner-provided Claude Design reference. The reference artifact is not bundled here yet; this repository starts with the public product brief, scoring model, and implementation direction.
+This repository now includes the first static web prototype: challenge library, arena, scoring panel, settings, tweak panel, reference renders, and GitHub Pages deployment workflow. The default tweak theme is `standard`.
 
 ## Concept
 
@@ -96,4 +96,17 @@ All official scoring should happen in a sandboxed, server-controlled render envi
 
 ## Status
 
-Seed repository. The next step is to add the challenge registry importer, static frontend shell, and first scoring proof of concept.
+Static prototype. The next step is to connect real provider calls, official scoring workers, and GitHub-backed submissions.
+
+## Run Locally
+
+```bash
+pnpm install
+pnpm dev
+```
+
+Build the GitHub Pages artifact:
+
+```bash
+pnpm build
+```

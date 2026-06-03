@@ -1,0 +1,8 @@
+node_modules
+dist
+work
+outputs
+.DS_Store
+*.local
+*.tsbuildinfo
+coverage
