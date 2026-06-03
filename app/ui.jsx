@@ -31,7 +31,7 @@ function Icon({ name, size = 16, stroke = 2, fill = false, style }) {
   );
 }
 
-const PROVIDER_COLOR = { anthropic: "#D97757", openai: "#10A37F", google: "#4285F4", mistral: "#FA520F" };
+const PROVIDER_COLOR = { anthropic: "#D97757", openai: "#10A37F", codex: "#171717", google: "#4285F4", mistral: "#FA520F" };
 
 function ProviderDot({ provider, size = 8 }) {
   return <span style={{ width: size, height: size, borderRadius: "50%", background: PROVIDER_COLOR[provider] || "#999", display: "inline-block", flexShrink: 0 }} />;
