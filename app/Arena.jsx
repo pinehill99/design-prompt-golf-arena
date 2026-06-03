@@ -79,17 +79,17 @@ function Arena({ challenge, keys, githubUser, onBack, onSubmit, showToast }) {
   const genMeta = React.useRef({ input: 0, output: 0, ms: 0 });
 
   const golfTokens = window.estimateTokens(prompt);
-  const hasKey = !!keys[providerId];
+  const hasKey = provider.isConfigured ? provider.isConfigured(keys) : !!keys[providerId];
 
   React.useEffect(() => { setSubmitted(false); }, [result]);
 
   async function run() {
-    if (!hasKey) { showToast("Add your " + provider.label + " key in Settings", "lock"); return; }
+    if (!hasKey) { showToast("Configure " + provider.label + " in Settings", "lock"); return; }
     if (!prompt.trim()) { showToast("Write a prompt first", "x"); return; }
     setError(null); setResult(null); setSubmitted(false); setHtml(""); setPreviewTab("render");
     setPhase("generating");
     try {
-      const gen = await provider.complete({ key: keys[providerId], system: ARENA_SYSTEM, prompt, model, effort });
+      const gen = await provider.complete({ key: keys[providerId], keys, system: ARENA_SYSTEM, prompt, model, effort });
       genMeta.current = { input: gen.usage.input, output: gen.usage.output, ms: gen.ms };
       if (!gen.text || !/</.test(gen.text)) throw new Error("Model returned no HTML.");
       pending.current = { mode: "live" };
@@ -132,7 +132,7 @@ function Arena({ challenge, keys, githubUser, onBack, onSubmit, showToast }) {
         judge = sampleJudge(challenge, pixel);
       } else {
         try {
-          judge = await window.Scoring.judge({ provider, key: keys[providerId], challenge, imageDataUrl: candUrl, model: provider.visionModel });
+          judge = await window.Scoring.judge({ provider, key: keys[providerId], keys, challenge, imageDataUrl: candUrl, model: provider.visionModel });
         } catch (e) {
           judge = { fidelity: pixel ? pixel.similarity : 70, scores: { color: 70, typography: 70, layout: 70, components: 70 }, wrong: ["Vision judge unavailable: " + (e.message || "error").slice(0, 40)], good: [], summary: "Scored on pixel diff only." };
         }

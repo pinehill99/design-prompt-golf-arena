@@ -5,7 +5,7 @@ function HowItWorks({ open, onClose }) {
   const steps = [
     ["Pick a target", "Choose any of 56 design systems from the awesome-design-md catalog. Each ships a DESIGN.md spec."],
     ["Write the shortest prompt", "Describe the page so a model can rebuild it. Only your prompt text is counted — fewer tokens is a better golf score."],
-    ["Run it live with your key", "Your prompt goes to Anthropic / OpenAI / Google / Mistral via your own API key, at the model & reasoning effort you choose."],
+    ["Run it live with your key", "Your prompt goes to Anthropic / OpenAI / Codex OAuth proxy / Google / Mistral at the model & reasoning effort you choose."],
     ["Get scored", "The render is captured and judged against the spec: a vision rubric (color/type/layout/components), plus a pixel-diff heatmap for ★ targets."],
     ["Climb the board", "Submit under your GitHub handle. Leaderboards rank by fewest tokens at a fidelity gate, split by model × reasoning effort."],
   ];
@@ -63,7 +63,7 @@ function App() {
     }, 1100);
   }
 
-  const keyCount = Object.values(keys).filter(Boolean).length;
+  const keyCount = window.PROVIDER_LIST.filter((p) => p.isConfigured ? p.isConfigured(keys) : !!keys[p.id]).length;
 
   return (
     <div className="app">
@@ -115,7 +115,7 @@ function App() {
       {/* footer */}
       <footer style={{ borderTop: "1px solid var(--hairline)", padding: "22px 0" }}>
         <div className="shell" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 16, flexWrap: "wrap" }}>
-          <span className="mono faint" style={{ fontSize: 11 }}>Prompt Golf · targets sourced from VoltAgent/awesome-design-md · BYOK, client-side</span>
+          <span className="mono faint" style={{ fontSize: 11 }}>Prompt Golf · targets sourced from VoltAgent/awesome-design-md · BYOK/proxy, client-side</span>
           <span className="mono faint" style={{ fontSize: 11 }}>{challenges.length} targets · {board.length} runs logged</span>
         </div>
       </footer>

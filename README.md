@@ -80,7 +80,21 @@ The first version can be built mostly on free tiers:
 - queue: Cloudflare Queues or Supabase table queue
 - official scoring: asynchronous Playwright worker through GitHub Actions or a browser-rendering worker
 
-User-supplied provider keys should be treated as bring-your-own-key credentials. Official leaderboard submissions should run through a server-side verifier so usage and scoring metadata can be recorded consistently.
+User-supplied provider keys should be treated as bring-your-own-key credentials. OpenAI Codex OAuth access tokens are supported only through a user-controlled proxy endpoint, not direct browser-to-OpenAI calls. Official leaderboard submissions should run through a server-side verifier so usage and scoring metadata can be recorded consistently.
+
+### OpenAI Codex OAuth proxy mode
+
+The static prototype includes a `Codex OAuth` provider option. It asks for:
+
+- `CODEX_ACCESS_TOKEN`
+- a proxy URL that accepts OpenAI chat-completions-compatible JSON
+
+The browser sends the token only to that proxy with `Authorization: Bearer <token>` and `x-prompt-golf-openai-endpoint: /v1/chat/completions`. The proxy should run in a trusted environment, apply CORS for the app origin, and return an OpenAI-compatible chat completions response.
+
+This follows the OpenAI Codex guidance that Codex account auth is an advanced trusted-automation flow and that API keys remain the recommended option for most automation/API work:
+
+- https://developers.openai.com/codex/cli/reference#codex-login
+- https://developers.openai.com/codex/auth/ci-cd-auth
 
 ## Anti-Cheating Rules
 
