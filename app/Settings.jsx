@@ -1,13 +1,18 @@
-/* Settings — BYOK API keys/tokens (localStorage only) + GitHub OAuth (simulated). */
+/* Settings — BYOK API keys / proxy sessions (localStorage only) + GitHub OAuth (simulated). */
 
 function KeyRow({ provider, keys, setKeys }) {
   const [show, setShow] = React.useState(false);
-  const value = keys[provider.id] || "";
-  const proxyValue = keys.codexProxy || "";
   const isCodex = provider.id === "codex";
+  const value = isCodex ? (keys.codexSession || "") : (keys[provider.id] || "");
+  const proxyValue = keys.codexProxy || "";
+  const useCookie = !!keys.codexUseCookie;
   const ok = provider.isConfigured ? provider.isConfigured(keys) : !!value;
-  const status = ok ? "● connected" : isCodex && value ? "○ proxy needed" : "○ no key";
+  const status = ok ? "● connected" : isCodex && proxyValue ? "○ login needed" : isCodex ? "○ no proxy" : "○ no key";
   const update = (patch) => setKeys({ ...keys, ...patch });
+  const openCodexLogin = () => {
+    const url = provider.loginUrl(keys);
+    if (url) window.open(url, "_blank", "noopener,noreferrer");
+  };
   return (
     <div className="card" style={{ padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -17,19 +22,33 @@ function KeyRow({ provider, keys, setKeys }) {
           {status}
         </span>
       </div>
-      <div style={{ display: "flex", gap: 8 }}>
-        <input className="field mono" type={show ? "text" : "password"} placeholder={provider.keyHint} value={value || ""}
-          onChange={(e) => update({ [provider.id]: e.target.value.trim() })} style={{ fontSize: 12.5 }} autoComplete="off" />
-        <button className="btn btn-sm btn-ghost" onClick={() => setShow((s) => !s)}>{show ? "Hide" : "Show"}</button>
-      </div>
       {isCodex && (
         <>
-          <input className="field mono" type="url" placeholder={provider.proxyHint} value={proxyValue}
-            onChange={(e) => update({ codexProxy: e.target.value.trim() })} style={{ fontSize: 12.5 }} autoComplete="off" />
+          <div style={{ display: "flex", gap: 8 }}>
+            <input className="field mono" type="url" placeholder={provider.proxyHint} value={proxyValue}
+              onChange={(e) => update({ codexProxy: e.target.value.trim() })} style={{ fontSize: 12.5 }} autoComplete="off" />
+            <button className="btn btn-sm btn-dark" onClick={openCodexLogin} disabled={!proxyValue}>Login</button>
+          </div>
+          <div style={{ display: "flex", gap: 8 }}>
+            <input className="field mono" type={show ? "text" : "password"} placeholder={provider.keyHint} value={value}
+              onChange={(e) => update({ codexSession: e.target.value.trim() })} style={{ fontSize: 12.5 }} autoComplete="off" />
+            <button className="btn btn-sm btn-ghost" onClick={() => setShow((s) => !s)}>{show ? "Hide" : "Show"}</button>
+          </div>
+          <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12.5, color: "var(--muted)" }}>
+            <input type="checkbox" checked={useCookie} onChange={(e) => update({ codexUseCookie: e.target.checked })} />
+            Use proxy cookie session
+          </label>
           <div className="muted" style={{ fontSize: 12, lineHeight: 1.45 }}>
-            Codex OAuth tokens are sent only to your proxy. The proxy should forward OpenAI-compatible chat requests from a trusted server environment.
+            The proxy keeps Codex auth server-side. This page stores only the proxy URL and optional proxy session handle.
           </div>
         </>
+      )}
+      {!isCodex && (
+        <div style={{ display: "flex", gap: 8 }}>
+          <input className="field mono" type={show ? "text" : "password"} placeholder={provider.keyHint} value={value}
+            onChange={(e) => update({ [provider.id]: e.target.value.trim() })} style={{ fontSize: 12.5 }} autoComplete="off" />
+          <button className="btn btn-sm btn-ghost" onClick={() => setShow((s) => !s)}>{show ? "Hide" : "Show"}</button>
+        </div>
       )}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <span className="mono faint" style={{ fontSize: 10.5 }}>models: {provider.models.slice(0, 3).join(", ")}{provider.models.length > 3 ? "…" : ""}</span>
@@ -45,7 +64,7 @@ function Settings({ keys, setKeys, githubUser, onConnectGithub, onDisconnectGith
       <div className="kicker" style={{ marginBottom: 10 }}>Settings · bring your own key</div>
       <h1 className="display" style={{ fontSize: 38, margin: 0 }}>Connect your accounts.</h1>
       <p className="muted" style={{ fontSize: 15, marginTop: 10, lineHeight: 1.5, maxWidth: 600 }}>
-        Prompt Golf runs entirely in your browser. Keys and tokens are stored in <span className="mono">localStorage</span> on this device only. Provider keys go straight to providers; Codex OAuth tokens go only to the proxy URL you control.
+        Prompt Golf runs entirely in your browser. Provider keys and proxy sessions are stored in <span className="mono">localStorage</span> on this device only. Codex login is handled by the proxy URL you control.
       </p>
 
       {/* github */}
@@ -66,7 +85,7 @@ function Settings({ keys, setKeys, githubUser, onConnectGithub, onDisconnectGith
         )}
       </div>
 
-      <div className="kicker" style={{ margin: "30px 0 14px" }}>Provider API keys & tokens</div>
+      <div className="kicker" style={{ margin: "30px 0 14px" }}>Provider keys & login proxies</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
         {window.PROVIDER_LIST.map((p) => (
           <KeyRow key={p.id} provider={p} keys={keys} setKeys={setKeys} />
@@ -76,7 +95,7 @@ function Settings({ keys, setKeys, githubUser, onConnectGithub, onDisconnectGith
       <div className="card" style={{ marginTop: 20, padding: "14px 18px", display: "flex", gap: 12, alignItems: "flex-start" }}>
         <span style={{ color: "var(--warn)", marginTop: 1 }}><Icon name="lock" size={16} /></span>
         <div className="muted" style={{ fontSize: 12.5, lineHeight: 1.55 }}>
-          <b style={{ color: "var(--ink)" }}>Where this goes in production.</b> Client-side BYOK is great for a demo but exposes keys to the page. Codex OAuth is stricter: use a trusted proxy and keep <span className="mono">~/.codex/auth.json</span> out of public repos, tickets, and chat. A shipped version routes calls through a thin serverless proxy and re-runs each submission server-side to verify the score before it lands on the public board — that's the anti-cheat story.
+          <b style={{ color: "var(--ink)" }}>Where this goes in production.</b> Client-side BYOK is great for a demo but exposes keys to the page. Codex login is stricter: keep <span className="mono">~/.codex/auth.json</span> only in a trusted proxy or local runner. A shipped version re-runs each submission server-side before it lands on the public board — that's the anti-cheat story.
         </div>
       </div>
     </div>

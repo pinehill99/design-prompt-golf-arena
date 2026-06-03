@@ -5,7 +5,7 @@ function HowItWorks({ open, onClose }) {
   const steps = [
     ["Pick a target", "Choose any of 56 design systems from the awesome-design-md catalog. Each ships a DESIGN.md spec."],
     ["Write the shortest prompt", "Describe the page so a model can rebuild it. Only your prompt text is counted — fewer tokens is a better golf score."],
-    ["Run it live with your key", "Your prompt goes to Anthropic / OpenAI / Codex OAuth proxy / Google / Mistral at the model & reasoning effort you choose."],
+    ["Run it live with your key", "Your prompt goes to Anthropic / OpenAI / Codex login proxy / Google / Mistral at the model & reasoning effort you choose."],
     ["Get scored", "The render is captured and judged against the spec: a vision rubric (color/type/layout/components), plus a pixel-diff heatmap for ★ targets."],
     ["Climb the board", "Submit under your GitHub handle. Leaderboards rank by fewest tokens at a fidelity gate, split by model × reasoning effort."],
   ];
