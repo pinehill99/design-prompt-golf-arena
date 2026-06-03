@@ -1,4 +1,4 @@
-# Design Prompt Arena
+# Design Prompt Golf Arena
 
 A public benchmark and leaderboard for recreating website designs with the fewest possible prompt tokens, turns, and model cost.
 
@@ -6,7 +6,7 @@ The first prototype is based on an owner-provided Claude Design reference. The r
 
 ## Concept
 
-Design Prompt Arena is a "prompt golf" system for UI generation:
+Design Prompt Golf Arena is a prompt-golf system for UI generation:
 
 - Pick a target website design challenge.
 - Prompt a model such as Claude or OpenAI from the browser.
