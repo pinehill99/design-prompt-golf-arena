@@ -1,5 +1,6 @@
 node_modules
 dist
+.pages-work
 work
 outputs
 .DS_Store

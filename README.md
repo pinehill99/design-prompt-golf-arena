@@ -2,6 +2,8 @@
 
 A public prompt-golf prototype for recreating website designs with the fewest possible prompt tokens, turns, and model cost.
 
+**Live site:** https://pinehill99.github.io/design-prompt-golf-arena/
+
 This repository now includes the first static web prototype: challenge library, arena, scoring panel, settings, tweak panel, reference renders, and GitHub Pages deployment workflow. The default tweak theme is `standard`.
 
 ## Concept
@@ -124,3 +126,11 @@ Build the GitHub Pages artifact:
 ```bash
 pnpm build
 ```
+
+Deploy to GitHub Pages (pushes the built `dist/` folder to the `gh-pages` branch):
+
+```bash
+pnpm deploy
+```
+
+GitHub Actions is disabled on this account, so deployment uses the `gh-pages` branch instead of the workflow in `.github/workflows/pages.yml`.

@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "node scripts/build-static.mjs",
+    "deploy": "node scripts/deploy-pages.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {},
