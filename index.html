@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" data-theme="standard">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Golf — recreate any site in the fewest tokens</title>
+<meta name="ext-resource-dependency" content="html2canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@400;500;600;700&family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  #boot { position: fixed; inset: 0; display: grid; place-items: center; background: var(--bg); z-index: 999; }
+  #boot .b { display: flex; align-items: center; gap: 12px; font-family: "Newsreader", serif; font-size: 26px; color: var(--ink); }
+  #boot .d { width: 14px; height: 14px; border-radius: 50%; background: var(--accent); animation: bp 1s ease-in-out infinite; }
+  @keyframes bp { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(.6);opacity:.5} }
+</style>
+</head>
+<body>
+  <div id="boot"><div class="b"><span class="d"></span> Prompt Golf</div></div>
+  <div id="root"></div>
+
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <rect width="100" height="100" fill="#FBF9F4"/>
+      <circle cx="50" cy="42" r="20" fill="none" stroke="#B0492F" stroke-width="4"/>
+      <circle cx="50" cy="42" r="8" fill="#B0492F"/>
+      <rect x="30" y="72" width="40" height="6" rx="3" fill="#1C1A15"/>
+    </svg>
+  </template>
+
+  <!-- libs -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <!-- data + libs -->
+  <script src="data/challenges.js"></script>
+  <script src="lib/tokens.js"></script>
+  <script src="lib/providers.js"></script>
+  <script src="lib/scoring.js"></script>
+
+  <!-- app (babel) -->
+  <script type="text/babel" src="app/store.jsx"></script>
+  <script type="text/babel" src="app/ui.jsx"></script>
+  <script type="text/babel" src="app/Challenges.jsx"></script>
+  <script type="text/babel" src="app/ScorePanel.jsx"></script>
+  <script type="text/babel" src="app/Arena.jsx"></script>
+  <script type="text/babel" src="app/Leaderboard.jsx"></script>
+  <script type="text/babel" src="app/Settings.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="app/Tweaks.jsx"></script>
+  <script type="text/babel" src="app/App.jsx" data-presets="react"></script>
+
+  <script type="text/babel" data-presets="react">
+    // hide boot splash once React has mounted
+    const obs = new MutationObserver(() => {
+      if (document.querySelector("#root .app")) {
+        const b = document.getElementById("boot");
+        if (b) { b.style.transition = "opacity .4s"; b.style.opacity = "0"; setTimeout(() => b.remove(), 420); }
+        obs.disconnect();
+      }
+    });
+    obs.observe(document.getElementById("root"), { childList: true, subtree: true });
+  </script>
+</body>
+</html>
